@@ -104,4 +104,4 @@ Nest is [MIT licensed](LICENSE).
 
 ## Reference
 
-- https://docs.nestjs.kr/first-steps
+- https://docs.nestjs.kr
