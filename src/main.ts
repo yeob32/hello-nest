@@ -1,12 +1,14 @@
-import { ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/all-exception.filter';
+import { ConfigurationModule } from './config/configurationModule.config';
+import { SwaggerConfig } from './config/swagger/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalFilters(new AllExceptionsFilter());
+  // app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // 요청에 대한 유효성 검사 실행
@@ -15,6 +17,11 @@ async function bootstrap() {
     }),
   );
 
+  const configModule = new ConfigurationModule(app);
+  configModule.addConfig(new SwaggerConfig());
+  configModule.setup();
+
   await app.listen(3000);
 }
+
 bootstrap();
